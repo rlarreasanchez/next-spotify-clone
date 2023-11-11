@@ -1,53 +1,70 @@
 "use client";
 
-import { TbPlaylist } from "react-icons/tb"
-import { AiOutlinePlus } from "react-icons/ai"
+import { TbPlaylist } from "react-icons/tb";
+import { AiOutlinePlus } from "react-icons/ai";
+import useAuthModal from "@/hooks/useAuthModal";
+import { useUser } from "@/hooks/useUser";
+import useuseUploadModal from "@/hooks/useUploadModal";
 
 const Library = () => {
-    const onClick = () => {
-        //Handle upload later
-    }
+  const authModal = useAuthModal();
+  const uploadModal = useuseUploadModal();
+  const { user } = useUser();
 
-    return ( 
-        <div className="flex flex-col">
-            <div className="
+  const onClick = () => {
+    if (!user) {
+      return authModal.onOpen();
+    }
+    // TODO: Check for subscription in the future
+
+    return uploadModal.onOpen();
+  };
+
+  return (
+    <div className="flex flex-col">
+      <div
+        className="
                 flex
                 items-center
                 justify-between
                 px-5
                 pt-4
-            ">
-                <div className="
+            "
+      >
+        <div
+          className="
                     inline-flex
                     items-center
                     gap-x-2
-                ">
-                    <TbPlaylist className="text-neutral-400" size={25} />
-                    <p className="text-neutral-400 font-medium text-md">
-                        Your Library
-                    </p>
-                </div>
-                <AiOutlinePlus 
-                    onClick={onClick} 
-                    size={20}
-                    className="
+                "
+        >
+          <TbPlaylist className="text-neutral-400" size={25} />
+          <p className="text-neutral-400 font-medium text-md">Your Library</p>
+        </div>
+        <AiOutlinePlus
+          onClick={onClick}
+          size={20}
+          className="
                         text-neutral-400
                         cursor-pointer
                         hover:text-white
                         transition
-                    " />
-            </div>
-            <div className="
+                    "
+        />
+      </div>
+      <div
+        className="
                 flex
                 flex-col
                 gap-y-2
                 mt-4
                 px-3
-            ">
-                List of Songs!
-            </div>
-        </div>
-     );
-}
- 
+            "
+      >
+        List of Songs!
+      </div>
+    </div>
+  );
+};
+
 export default Library;
